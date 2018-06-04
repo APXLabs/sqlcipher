@@ -291,6 +291,7 @@ foreach file {
    crypto.c
    crypto_impl.c
    crypto_libtomcrypt.c
+   crypto_fl.c
    crypto_openssl.c
    crypto_cc.c
 

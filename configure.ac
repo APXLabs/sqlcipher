@@ -219,11 +219,27 @@ else
       AC_CHECK_LIB([tomcrypt], [register_cipher], ,
                    AC_MSG_ERROR([Library crypto not found. Install libtomcrypt!"]))
     else
-        CFLAGS+=" -DSQLCIPHER_CRYPTO_OPENSSL"
-        BUILD_CFLAGS+=" -DSQLCIPHER_CRYPTO_OPENSSL"
-	      AC_MSG_RESULT([openssl])
-        AC_CHECK_LIB([crypto], [HMAC_Init_ex], ,
-                     AC_MSG_ERROR([Library crypto not found. Install openssl!"]))
+      if test "$crypto_lib" = "libsafezone-sw-fips"; then
+        CFLAGS+=" -DSQLCIPHER_CRYPTO_FL"
+        BUILD_CFLAGS+=" -DSQLCIPHER_CRYPTO_FL"
+        AC_MSG_RESULT([libsafezone-sw-fips])
+        AC_CHECK_LIB([safezone-sw-fips], [FL_LibStatus], ,
+                     AC_MSG_ERROR([Library crypto not found. Install SafeZone FIPS Cryptographic Library!"]))
+      else
+        if test "$crypto_lib" = "libfl"; then
+          CFLAGS+=" -DSQLCIPHER_CRYPTO_FL"
+          BUILD_CFLAGS+=" -DSQLCIPHER_CRYPTO_FL"
+          AC_MSG_RESULT([libfl])
+          AC_CHECK_LIB([fl], [FL_LibStatus], ,
+                       AC_MSG_ERROR([Library crypto not found. Install SafeZone FIPS Cryptographic Library!"]))
+        else
+            CFLAGS+=" -DSQLCIPHER_CRYPTO_OPENSSL"
+            BUILD_CFLAGS+=" -DSQLCIPHER_CRYPTO_OPENSSL"
+	          AC_MSG_RESULT([openssl])
+            AC_CHECK_LIB([crypto], [HMAC_Init_ex], ,
+                         AC_MSG_ERROR([Library crypto not found. Install openssl!"]))
+        fi
+      fi
     fi
   fi
 fi

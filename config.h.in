@@ -36,6 +36,19 @@
 /* Define to 1 if you have the `tomcrypt' library (-ltomcrypt). */
 #undef HAVE_LIBTOMCRYPT
 
+/* Define to 1 if you have the `crypto' library (-lcrypto). */
+#undef HAVE_LIBCRYPTO
+
+/* Define to 1 if you have the `fl' library (-lfl). */
+#undef HAVE_LIBFL
+
+/* Define to 1 if you have the `safezone-sw-fips' library
+   (-lsafezone-sw-fips). */
+#undef HAVE_LIBSAFEZONE_SW_FIPS
+
+/* Define to 1 if you have the `tomcrypt' library (-ltomcrypt). */
+#undef HAVE_LIBTOMCRYPT
+
 /* Define to 1 if you have the `localtime_r' function. */
 #undef HAVE_LOCALTIME_R
 

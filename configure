@@ -12026,11 +12026,117 @@ else
 fi
 
     else
-        CFLAGS+=" -DSQLCIPHER_CRYPTO_OPENSSL"
-        BUILD_CFLAGS+=" -DSQLCIPHER_CRYPTO_OPENSSL"
-	      { $as_echo "$as_me:${as_lineno-$LINENO}: result: openssl" >&5
+      if test "$crypto_lib" = "libsafezone-sw-fips"; then
+        CFLAGS+=" -DSQLCIPHER_CRYPTO_FL"
+        BUILD_CFLAGS+=" -DSQLCIPHER_CRYPTO_FL"
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: libsafezone-sw-fips" >&5
+$as_echo "libsafezone-sw-fips" >&6; }
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for FL_LibStatus in -lsafezone-sw-fips" >&5
+$as_echo_n "checking for FL_LibStatus in -lsafezone-sw-fips... " >&6; }
+if ${ac_cv_lib_safezone_sw_fips_FL_LibStatus+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lsafezone-sw-fips  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char FL_LibStatus ();
+int
+main ()
+{
+return FL_LibStatus ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_safezone_sw_fips_FL_LibStatus=yes
+else
+  ac_cv_lib_safezone_sw_fips_FL_LibStatus=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_safezone_sw_fips_FL_LibStatus" >&5
+$as_echo "$ac_cv_lib_safezone_sw_fips_FL_LibStatus" >&6; }
+if test "x$ac_cv_lib_safezone_sw_fips_FL_LibStatus" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBSAFEZONE_SW_FIPS 1
+_ACEOF
+
+  LIBS="-lsafezone-sw-fips $LIBS"
+
+else
+  as_fn_error $? "Library crypto not found. Install SafeZone FIPS Cryptographic Library!\"" "$LINENO" 5
+fi
+
+      else
+        if test "$crypto_lib" = "libfl"; then
+          CFLAGS+=" -DSQLCIPHER_CRYPTO_FL"
+          BUILD_CFLAGS+=" -DSQLCIPHER_CRYPTO_FL"
+          { $as_echo "$as_me:${as_lineno-$LINENO}: result: libfl" >&5
+$as_echo "libfl" >&6; }
+          { $as_echo "$as_me:${as_lineno-$LINENO}: checking for FL_LibStatus in -lfl" >&5
+$as_echo_n "checking for FL_LibStatus in -lfl... " >&6; }
+if ${ac_cv_lib_fl_FL_LibStatus+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lfl  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char FL_LibStatus ();
+int
+main ()
+{
+return FL_LibStatus ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_fl_FL_LibStatus=yes
+else
+  ac_cv_lib_fl_FL_LibStatus=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_fl_FL_LibStatus" >&5
+$as_echo "$ac_cv_lib_fl_FL_LibStatus" >&6; }
+if test "x$ac_cv_lib_fl_FL_LibStatus" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBFL 1
+_ACEOF
+
+  LIBS="-lfl $LIBS"
+
+else
+  as_fn_error $? "Library crypto not found. Install SafeZone FIPS Cryptographic Library!\"" "$LINENO" 5
+fi
+
+        else
+            CFLAGS+=" -DSQLCIPHER_CRYPTO_OPENSSL"
+            BUILD_CFLAGS+=" -DSQLCIPHER_CRYPTO_OPENSSL"
+	          { $as_echo "$as_me:${as_lineno-$LINENO}: result: openssl" >&5
 $as_echo "openssl" >&6; }
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for HMAC_Init_ex in -lcrypto" >&5
+            { $as_echo "$as_me:${as_lineno-$LINENO}: checking for HMAC_Init_ex in -lcrypto" >&5
 $as_echo_n "checking for HMAC_Init_ex in -lcrypto... " >&6; }
 if ${ac_cv_lib_crypto_HMAC_Init_ex+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -12077,6 +12183,8 @@ else
   as_fn_error $? "Library crypto not found. Install openssl!\"" "$LINENO" 5
 fi
 
+        fi
+      fi
     fi
   fi
 fi
